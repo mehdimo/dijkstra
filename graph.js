@@ -114,9 +114,38 @@ var Graph = (function (undefined) {
 			return a;
 		}
 	}
+	
+	function convert2json(edges, bidirectional){
+		  if (bidirectional === undefined) {bidirectional = false;}
+		  var adjacent = {};
+		  var i;
+		  for(i = 0; i < edges.length; i++){
+		   var h = edges[i]['head'];
+		   var t = edges[i]['tail'];
+		   var v = edges[i]['dist'];
+		   var obj = adjacent[h];
+		   if(obj==null)
+		       obj = {};
+		   obj[t] = v;
+		   adjacent[h] = obj;
+		   if(bidirectional){
+			   var obj2 = adjacent[t];
+			   if(obj2==null)
+			       obj2 = {};
+			   obj2[h] = v;
+			   adjacent[t] = obj2;
+		   }
+		  }
 
-	var Graph = function (map) {
-		this.map = map;
+		console.log(adjacent);
+		return adjacent;
+	}
+
+	var Graph = function (map, bidirectional) {
+		if(map.length != undefined)
+			this.map = convert2json(map, bidirectional);
+		else
+			this.map = map;
 	}
 
 	Graph.prototype.findShortestPath = function (start, end) {
