@@ -36,4 +36,4 @@ var bidirectional = true;
 graph = new Graph(map, bidirectional);
 ```
 
-Note: bidirectional only is applied to array or edges.
+Note: bidirectional only is applied to array of edges.
